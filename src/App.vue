@@ -62,10 +62,8 @@ export default {
       console.log(res)
     },
 
-    updateItem() {
-      const res = axios.put(URL_API_FOO + '/' + this.itemId, {
-        item: this.item,
-      })
+    async updateItem() {
+      const res = await axios.put(URL_API_FOO + '/' + this.itemId, { ...this.item })
       console.log(res)
     },
   },
