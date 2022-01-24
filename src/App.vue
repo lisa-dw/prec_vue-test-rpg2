@@ -5,10 +5,9 @@
     <br />
     <input type="text" v-model="item.title"/>
     <br />
-    <input type="text"/>
+    <input type="text" v-model="itemID"/>   <!-- 여기서 밑의 data의 itemID를 받아줌. -->
     <br />
-    <input type="text"/>
-    <br />
+
 
 
     {{ item }}
@@ -19,6 +18,8 @@
 
     <button @click="readItems">items</button>
     <button @click="createItem">createItem</button>
+    <button @click="updateItem">updateItem</button>
+    <button @click="deleteItem">deleteItem</button>
 
   </div>
 </template>
@@ -43,6 +44,7 @@ export default {
         content: '',
         title: '',  // 문자열
       },
+      itemID: 0,          // 서버에 보내기 위해 만듬.
       items: [],    // 복수     // 목록 / list들 / 배열   , 만약에 {} 로 만들면 객체로 변경된다.
 
     }
@@ -53,8 +55,8 @@ export default {
 
     async readItems() {
     const res = await axios.get(URL)   //응답임 // axios.get() : 서버에 뭔가를 요청하는 것. // axios.get(URL) : axios에 get 명령어로 URL을 요청하는 것.
-                                        // 해당 URL에 있는 정보들을 가져와라.
-                                        // axios에서 응답을 기다렸다가 받으니까 await를 써준다.
+                                            // 해당 URL에 있는 정보들을 가져와라.
+                                           // axios에서 응답을 기다렸다가 받으니까 await를 써준다.
 
 
       console.log(res.data)           // 해당 URL에서 data에 포함되는 것들을 불러와서 콘솔에 찍어라. (서버에 요청하는 것)
@@ -84,6 +86,21 @@ export default {
     },
                                            //  laravel-test-rqg2폴더의 app/Http/Controllers/Api/Foo/FoosController.php에
                                            //  public function store() 의 내용이 없으면 이 부분이 보이지 않음(실행이 안됨).
+
+
+
+    async updateItem(){
+      const res = await axios.put(URL + '/' + this.itemID, {    //axios.post()와 똑같이 URL, {객체}의 형태이다.
+        ... this.item
+      })
+      console.log(res)
+    },
+
+
+      async deleteItem(){
+      const res = await axios.delete(URL + '/' + this.itemID)   //지워줄 ID 기재.
+      console.log(res)
+      },
 
 
   },
